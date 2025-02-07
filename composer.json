@@ -1,0 +1,23 @@
+{
+    "name": "bsbadmin/app-salon",
+    "description": "Proyecto de App Salon",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Bsbadmin\\AppSalon\\": "src/",
+            "MVC\\" : "./",
+            "Controllers\\" : "./controllers",
+            "Model\\" : "./models",
+            "Classes\\" : "./classes"
+        }
+    },
+    "authors": [
+        {
+            "name": "Diego Etcharren",
+            "email": "diegoe96@gmail.com"
+        }
+    ],
+    "require": {
+        "phpmailer/phpmailer": "^6.9"
+    }
+}
