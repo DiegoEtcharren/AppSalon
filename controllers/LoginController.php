@@ -10,7 +10,6 @@ class LoginController {
     public static function login(Router $router){
 
         $auth = new Usuario;
-
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $auth = new Usuario($_POST);
@@ -55,8 +54,75 @@ class LoginController {
     }
 
     public static function olvide(Router $router){
+        $alertas = [];
+        $auth = new Usuario;
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $auth = new Usuario($_POST);
+            $alertas = $auth->validarEmail();
+            if (empty($alertas)) {
+                $usuario = Usuario::where('email', $auth->email);
+                if ($usuario && $usuario->confirmado === '1') {
+                    // Generar un token:
+                    $usuario->crearToken();
+                    $usuario->guardar();
+                    // TODO: Enviar email:
+                    $email = new Email($usuario->email,$usuario->nombre, $usuario->token);
+                    $email->enviarInstrucciones();
+
+                    // Alerta de Exito: 
+                    Usuario::setAlerta('exito', 'Correo Enviado');
+
+
+
+                } else {
+                    Usuario::setAlerta('error', 'No existe el usuario o no esta confirmado');
+                }
+            }
+        }
+
+        $alertas = Usuario::getAlertas();
         $router->render('auth/olvide-password',
-        []);
+        [
+            'alertas' => $alertas, 
+            'auth' => $auth
+        ]);
+    }
+
+    public static function recuperar(Router $router){
+
+        $alertas = [];
+        $error = false;
+        $token = s($_GET['token']);
+        $usuario = Usuario::where('token', $token);
+        if(empty($usuario)){
+            Usuario::setAlerta('error', 'Error en Token');
+            $error = true;
+        }
+
+        // Leer el nuevo password y actualizar:
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {    
+            $password = new Usuario($_POST);
+            $alertas = $password->validarPassword();
+            if (empty($alertas)) {
+                $usuario->password = null;
+                $usuario->password = $password->password;
+                $usuario->hashPassword();
+                $usuario->token = null;
+                $resultado = $usuario->guardar();
+                if ($resultado) { 
+                    header('Location: /');
+                }
+
+            }
+        }
+
+
+        $alertas = Usuario::getAlertas();
+        $router->render('auth/recuperar',
+        [
+            'alertas' => $alertas,
+            'error' => $error
+        ]);
     }
 
     public static function confirmar(Router $router){

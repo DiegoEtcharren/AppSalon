@@ -43,6 +43,34 @@ class Email {
         // Enviar mail: 
         $mail->send();
     }
+
+    public function enviarInstrucciones() {
+        // Crear objeto de PHP Mailer: 
+        $mail = new PHPMailer();
+        $mail->isSMTP();                                           
+        $mail->Host = 'sandbox.smtp.mailtrap.io';
+        $mail->SMTPAuth = true;
+        $mail->Port = 2525;
+        $mail->Username = '1de049c7e5ef83';
+        $mail->Password = '1eccb8a1ae91f0';                              
+    
+        $mail->setFrom('cuentas@eappsalon.com');
+        $mail->addAddress('cuentas@eappsalon.com', 'AppSalon.com');     
+        $mail->Subject = 'Restablece tu Password';
+
+        $mail->isHTML(true);
+        $mail->CharSet = 'UTF-8';
+
+        $contenido = "<html>";
+        $contenido .= "<p><strong>Hola " . $this->nombre . "</strong> Has solicitado, un cambio de contrasena</p>";
+        $contenido .= "<p><a href='http://localhost:3000/recuperar?token=" . $this->token."'>Restablecer Constrasena</a></p>";
+        $contenido .= "<p>Si tu no solicitaste esta cambio, puedes ignorar el mensaje</p>";
+        $contenido .= "</html>";
+        $mail->Body = $contenido;
+    
+        // Enviar mail: 
+        $mail->send();
+    }
 }
 
 
