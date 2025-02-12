@@ -3,7 +3,7 @@
 
 <div id="app">
     <nav class="tabs">
-        <button type="button" data-paso="1">Servicios</button>
+        <button class="actual" type="button" data-paso="1">Servicios</button>
         <button type="button" data-paso="2">Informacion Cita</button>
         <button type="button" data-paso="3">Resumen</button>
     </nav>
@@ -46,4 +46,21 @@
         <h2>Resumen</h2>
         <p class="text-center">Verifica que los datos sean correctos</p>
     </div>
+    <div class="paginacion">
+        <button
+        id="anterior"
+        class="boton"
+        type="button"
+        >&laquo; Anterior</button>
+        <button
+        id="siguiente"
+        class="boton"
+        type="button"
+        >Siguiente &raquo;</button>
+    </div>
 </div>
+<?php 
+    $script = "
+        <script src='build/js/app.js'></script>
+    ";
+?>
