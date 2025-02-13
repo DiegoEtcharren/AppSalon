@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'bsbadmin/app-salon',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => null,
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '433aa938e711dd9576bca63a26b046f4ca90b861',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'bsbadmin/app-salon' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => null,
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '433aa938e711dd9576bca63a26b046f4ca90b861',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
