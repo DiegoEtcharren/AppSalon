@@ -163,7 +163,27 @@ function seleccionarFecha() {
         const dia = new Date(e.target.value).getUTCDay();
         if ([6, 0].includes(dia)) {
             e.target.value = '';
-            console.log('Sabado y Domingos no abrimos');
+            mostrarAlerta('Fines de Semana no permitidos', 'error');
         }
     })
+}
+
+function mostrarAlerta(mensaje, tipo) {
+    // Prevenir que se cree mas de una alerta: 
+    const alertaPrevia = document.querySelector('.alerta');
+    if (alertaPrevia) return;
+
+    // Scripting para crear alerta:
+    const alerta = document.createElement('DIV');
+    alerta.textContent = mensaje;
+    alerta.classList.add('alerta');
+    alerta.classList.add(tipo);
+
+    const formulario = document.querySelector('.formulario');
+    formulario.appendChild(alerta);
+
+    // Eliminar la alerta:
+    setTimeout(() => {
+        alerta.remove();
+    }, 3000);
 }
