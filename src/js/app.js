@@ -23,7 +23,10 @@ function iniciarApp() {
     consultarAPI(); // Extraer servicios de endpoint. 
 
     nombreCliente(); // Anade el nombre del cliente en memoria
-    seleccionarFecha();
+    seleccionarFecha(); // Añade la fecha en el objeto
+    seleccionarHora(); // Añade la hora en el objeto
+
+    mostrarResumen(); 
 }
 
 function mostrarSeccion() {
@@ -164,6 +167,22 @@ function seleccionarFecha() {
         if ([6, 0].includes(dia)) {
             e.target.value = '';
             mostrarAlerta('Fines de Semana no permitidos', 'error');
+        } else {
+            cita.fecha = e.target.value;
+        }
+    })
+}
+
+function seleccionarHora() {
+    const inputHora = document.querySelector('#hora');
+    inputHora.addEventListener('change', function(e) {
+        const horaCita = e.target.value;
+        const hora = horaCita.split(":")[0];
+        if (hora < 10 || hora > 18) {
+            e.target.value = '';
+            mostrarAlerta('Horario de Tienda de 10am a 6pm', 'error');
+        } else {
+            cita.hora = e.target.value;
         }
     })
 }
