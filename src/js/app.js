@@ -57,6 +57,7 @@ function tabs() {
     const botones = document.querySelectorAll('.tabs button');
     botones.forEach(boton => {
         boton.addEventListener('click', function(e) {
+            e.preventDefault();
             paso = parseInt(e.target.dataset.paso);
             mostrarSeccion();
             botonesPaginador();
@@ -92,11 +93,13 @@ function botonesPaginador() {
     } else if (paso === 3) {
         paginaAnterior.classList.remove('ocultar');
         paginaSiguiente.classList.add('ocultar');
+        mostrarResumen();
     } else {
         paginaAnterior.classList.remove('ocultar');
         paginaSiguiente.classList.remove('ocultar');
     }
     mostrarSeccion();
+    
 }
 
 async function consultarAPI() {
@@ -166,7 +169,7 @@ function seleccionarFecha() {
         const dia = new Date(e.target.value).getUTCDay();
         if ([6, 0].includes(dia)) {
             e.target.value = '';
-            mostrarAlerta('Fines de Semana no permitidos', 'error');
+            mostrarAlerta('Fines de Semana no permitidos', 'error', '.formulario');
         } else {
             cita.fecha = e.target.value;
         }
@@ -180,17 +183,19 @@ function seleccionarHora() {
         const hora = horaCita.split(":")[0];
         if (hora < 10 || hora > 18) {
             e.target.value = '';
-            mostrarAlerta('Horario de Tienda de 10am a 6pm', 'error');
+            mostrarAlerta('Horario de Tienda de 10am a 6pm', 'error', '.formulario');
         } else {
             cita.hora = e.target.value;
         }
     })
 }
 
-function mostrarAlerta(mensaje, tipo) {
+function mostrarAlerta(mensaje, tipo, elemento, desaparece = true) {
     // Prevenir que se cree mas de una alerta: 
     const alertaPrevia = document.querySelector('.alerta');
-    if (alertaPrevia) return;
+    if (alertaPrevia) {
+        alertaPrevia.remove();
+    };
 
     // Scripting para crear alerta:
     const alerta = document.createElement('DIV');
@@ -198,11 +203,84 @@ function mostrarAlerta(mensaje, tipo) {
     alerta.classList.add('alerta');
     alerta.classList.add(tipo);
 
-    const formulario = document.querySelector('.formulario');
-    formulario.appendChild(alerta);
+    const referencia = document.querySelector(elemento);
+    referencia.appendChild(alerta);
 
     // Eliminar la alerta:
-    setTimeout(() => {
-        alerta.remove();
-    }, 3000);
+    if (desaparece) {
+        setTimeout(() => {
+            alerta.remove();
+        }, 3000);
+    }
+
 }
+
+function mostrarResumen() {
+    const resumen = document.querySelector('.contenido-resumen');
+
+    // Limpiar el contenido de resumen: 
+    while (resumen.firstChild) {
+        resumen.removeChild(resumen.firstChild);
+    }
+    if (Object.values(cita).includes('') || cita.servicios.length === 0) {
+        mostrarAlerta('Faltan datos de servio y fecha / hora', 'error', '.contenido-resumen', false);
+        return;
+    }
+
+    // Formatear el DIV de resumen: 
+    const { nombre, fecha, hora, servicios } = cita;
+
+    // Heading para Servicios en resumen: 
+    const headingServicios = document.createElement('H3');
+    headingServicios.textContent = 'Resumen de Servicios';
+    resumen.appendChild(headingServicios);
+
+
+    // Iterando los servicios: 
+    servicios.forEach(servicio => {
+        const { id, precio, nombre } = servicio;
+        const contenedorServicio = document.createElement('DIV');
+        contenedorServicio.classList.add('contenedor-servicio');
+
+        const textoServicio = document.createElement('P');
+        textoServicio.textContent = nombre;
+
+        const precioServicio = document.createElement('P');
+        precioServicio.innerHTML = `<span>Precio: </span>$${precio}`;
+
+        contenedorServicio.appendChild(textoServicio);
+        contenedorServicio.appendChild(precioServicio);
+
+        resumen.appendChild(contenedorServicio);
+    })
+
+    // Heading para Cita en resumen: 
+    const headingCita = document.createElement('H3');
+    headingCita.textContent = 'Resumen de Cliente';
+    resumen.appendChild(headingCita);
+
+    const nombreCliente = document.createElement('P');
+    nombreCliente.innerHTML = `<span>Nombre: </span>${nombre}`;
+
+    // Formatear la fecha: 
+    const fechaObj = new Date(fecha);
+    const mes = fechaObj.getMonth();
+    const dia = fechaObj.getDate() + 2;
+    const year = fechaObj.getFullYear();
+
+    const fechaUTC = new Date(Date.UTC(year, mes, dia));
+    const opciones = {weekday : 'long', year: 'numeric', month : 'long', day : 'numeric'};
+    const fechaFormateada = fechaUTC.toLocaleDateString('es-MX', opciones);
+
+    const fechaCita = document.createElement('P');
+    fechaCita.innerHTML = `<span>Fecha: </span>${fechaFormateada}`;
+
+    const horaCita = document.createElement('P');
+    horaCita.innerHTML = `<span>Hora: </span>${hora} Horas`;
+
+    resumen.appendChild(nombreCliente);
+    resumen.appendChild(fechaCita);
+    resumen.appendChild(horaCita);
+
+}
+
