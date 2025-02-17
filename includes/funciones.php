@@ -13,8 +13,16 @@ function s($html) : string {
     return $s;
 }
 
+// Funcion que inicia sesion en caso de que no este iniciada:
 function isSession() : void {
     if(!isset($_SESSION)) {
         session_start();
+    }
+}
+
+// Funcion que revisa si el usuario esta iniciado: 
+function isAuth() : void {
+    if (!isset($_SESSION['login'])) {
+        header('Location: /');
     }
 }
