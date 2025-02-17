@@ -40,8 +40,8 @@
         width: auto;
     }
     &:hover {
-        background-color: color-mix(in srgb, $bgColor 70%, v.$negro 30%);
-        cursor: pointer;
+        background-color: color-mix(in srgb, $bgColor 70%, #000 30%);
+        cursor: pointer;  
     }
 }
 

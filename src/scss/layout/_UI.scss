@@ -24,3 +24,9 @@
         padding: 3rem 0;
     }
 }
+
+.barra {
+    .boton { 
+        @include m.boton(v.$negro, v.$blanco);
+    }
+}
