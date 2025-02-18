@@ -50,10 +50,10 @@ class LoginController {
     }
 
     public static function logout(){
-        $_SESSION = array();
+        isSession();
+        $_SESSION = [];
         session_destroy();
-
-        isAuth();
+        header('Location: /');
     }
 
     public static function olvide(Router $router){
