@@ -23,8 +23,8 @@ class Email {
         $mail->Host = 'sandbox.smtp.mailtrap.io';
         $mail->SMTPAuth = true;
         $mail->Port = 2525;
-        $mail->Username = '1de049c7e5ef83';
-        $mail->Password = '1eccb8a1ae91f0';                              
+        $mail->Username = 'c39839982590cc';
+        $mail->Password = '3fc9b788946388';                              
     
         $mail->setFrom('cuentas@eappsalon.com');
         $mail->addAddress('cuentas@eappsalon.com', 'AppSalon.com');     
@@ -51,10 +51,10 @@ class Email {
         $mail->Host = 'sandbox.smtp.mailtrap.io';
         $mail->SMTPAuth = true;
         $mail->Port = 2525;
-        $mail->Username = '1de049c7e5ef83';
-        $mail->Password = '1eccb8a1ae91f0';                              
+        $mail->Username = 'c39839982590cc';
+        $mail->Password = '3fc9b788946388';                              
     
-        $mail->setFrom('cuentas@eappsalon.com');
+        $mail->setFrom('cuentas@appsalon.com');
         $mail->addAddress('cuentas@eappsalon.com', 'AppSalon.com');     
         $mail->Subject = 'Restablece tu Password';
 
@@ -72,6 +72,5 @@ class Email {
         $mail->send();
     }
 }
-
 
 ?>
