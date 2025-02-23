@@ -20,6 +20,14 @@ function isSession() : void {
     }
 }
 
+// Compara si los valores son iguales: 
+function esUltimo(string $actual, string $proximo) : bool {
+    if ($actual !== $proximo){
+        return true;
+    }
+    return false;
+} 
+
 // Funcion que revisa si el usuario esta iniciado: 
 function isAuth() : void {
     if (!isset($_SESSION['login'])) {

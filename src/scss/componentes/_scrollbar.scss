@@ -1,0 +1,31 @@
+@use 'base/mixins' as m;
+@use 'base/variables' as v;
+
+@mixin custom-scrollbar($size: v.$scrollbar-size, $thumb-color: v.$scrollbar-thumb, $scrollbar-thumb-hover: v.$scrollbar-thumb-hover, $track-color: v.$scrollbar-track, $radius: v.$scrollbar-radius, ) {
+    ::-webkit-scrollbar {
+        width: $size;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: $track-color;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: $thumb-color;
+        border-radius: $radius;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: $scrollbar-thumb-hover;
+    }
+
+    html {
+        scrollbar-width: thin;
+        scrollbar-color: $thumb-color $track-color;
+    }
+}
+
+html,
+body {
+    @include custom-scrollbar(v.$scrollbar-size, v.$scrollbar-thumb, v.$scrollbar-thumb-hover,v.$scrollbar-track, v.$scrollbar-radius);
+}
