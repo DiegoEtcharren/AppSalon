@@ -17,10 +17,10 @@ include_once __DIR__ . '/../templates/barra.php';
     </form>
 </div>
 
-<?php 
-    if(empty($citas)): ?>
-        <h2>No Hay Citas en esta Fecha</h2>
-    <?php endif; ?>
+<?php
+if (empty($citas)): ?>
+    <h2>No Hay Citas en esta Fecha</h2>
+<?php endif; ?>
 <div id='citas-admin'>
     <ul class='citas'>
         <?php
@@ -37,20 +37,23 @@ include_once __DIR__ . '/../templates/barra.php';
                     <h3>Servicios</h3>
                     <?php $idCita = $cita->id; ?>
                 </li>
-                <?php endif; ?>
-                <p class='servicio'><?php echo "{$cita->nombre}  $ {$cita->precio}" ?></p>
-                <?php
-                $actual = $cita->id;
-                $proximo = $citas[$key + 1]->id ?? 0;
-                $total += $cita->precio;
-                if (esUltimo($actual, $proximo)): ?>
-                    <p class='total'>Total: <span>$<?php echo $total ?></span></p>
-                <?php endif; ?>
-                
-            <?php endforeach; ?>
+            <?php endif; ?>
+            <p class='servicio'><?php echo "{$cita->nombre}  $ {$cita->precio}" ?></p>
+            <?php
+            $actual = $cita->id;
+            $proximo = $citas[$key + 1]->id ?? 0;
+            $total += $cita->precio;
+            if (esUltimo($actual, $proximo)): ?>
+                <p class='total'>Total: <span>$<?php echo $total ?></span></p>
+                <form action='/api/eliminar' method='POST'>
+                    <input type='hidden' name='id' value='<?php echo $cita->id ?>'>
+                    <input type='submit' class='boton-eliminar' value='Eliminar'>
+                </form>
+            <?php endif; ?>
+        <?php endforeach; ?>
     </ul>
 </div>
 
-<?php 
-    $script = "<script src='build/js/buscador.js'></script>";
+<?php
+$script = "<script src='build/js/buscador.js'></script>";
 ?>

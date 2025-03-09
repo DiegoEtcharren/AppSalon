@@ -19,3 +19,16 @@
         border-top: 1px solid v.$blanco;
     }
 }
+
+.servicios {
+    @extend .citas;
+
+    .acciones {
+        margin: 2rem 0;
+    }
+
+    .boton,
+    .boton-eliminar {
+        margin: 0;
+    }
+}

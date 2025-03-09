@@ -9,7 +9,7 @@ use Model\AdminCitas;
 class AdminController {
     public static function index( Router $router){
         isSession();
-        isAuth();
+        isAdmin();
         // Consultar base de datos:
         $fecha = $_GET['fecha'] ?? date('Y-m-d');
         $fechas = explode('-', $fecha);

@@ -2,7 +2,8 @@
 
 namespace Model;
 
-class Servicio extends ActiveRecord {
+class Servicio extends ActiveRecord
+{
 
     // Base de datos: 
     protected static $tabla = "servicios";
@@ -16,12 +17,24 @@ class Servicio extends ActiveRecord {
     public $nombre;
     public $precio;
 
-    public function __construct($args = []) { 
+    public function __construct($args = [])
+    {
         $this->id = $args['id'] ?? null;
         $this->nombre = $args['nombre'] ?? '';
         $this->precio = $args['precio'] ?? '';
     }
-}
 
-?>
+    public function validar()
+    {
+        if (!$this->nombre) {
+            self::$alertas['error'][] = 'El nombre es obligatorio';
+        };
 
+        if ($this->precio === '' || $this->precio === null) {
+            self::$alertas['error'][] = 'El precio es obligatorio';
+        } elseif (!is_numeric($this->precio)) {
+            self::$alertas['error'][] = 'El precio debe ser un numero';
+        };
+        return self::$alertas;
+    }
+}?>
