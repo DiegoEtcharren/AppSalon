@@ -20,11 +20,11 @@ class Email {
         // Crear objeto de PHP Mailer: 
         $mail = new PHPMailer();
         $mail->isSMTP();                                           
-        $mail->Host = 'sandbox.smtp.mailtrap.io';
+        $mail->Host = $_ENV['EMAIL_HOST'];
         $mail->SMTPAuth = true;
-        $mail->Port = 2525;
-        $mail->Username = 'c39839982590cc';
-        $mail->Password = '3fc9b788946388';                              
+        $mail->Port = $_ENV['EMAIL_PORT'];
+        $mail->Username = $_ENV['EMAIL_USERNAME'];
+        $mail->Password = $_ENV['EMAIL_USERNAME'];                           
     
         $mail->setFrom('cuentas@eappsalon.com');
         $mail->addAddress('cuentas@eappsalon.com', 'AppSalon.com');     
@@ -35,7 +35,7 @@ class Email {
 
         $contenido = "<html>";
         $contenido .= "<p><strong>Hola " . $this->nombre . "</strong> Has creado tu cuenta en App Salon. Solo debes confirmarla presionando el siguiente link</p>";
-        $contenido .= "<p><a href='http://localhost:3000/confirmar-cuenta?token=" . $this->token."'>Confirmar Cuenta</a></p>";
+        $contenido .= "<p><a href='" . $_ENV['PROJECT_URL'] . "/confirmar-cuenta?token=" . $this->token."'>Confirmar Cuenta</a></p>";
         $contenido .= "<p>Si tu no solicitaste esta cuenta, puedes ignorar el mensaje</p>";
         $contenido .= "</html>";
         $mail->Body = $contenido;
@@ -63,7 +63,7 @@ class Email {
 
         $contenido = "<html>";
         $contenido .= "<p><strong>Hola " . $this->nombre . "</strong> Has solicitado, un cambio de contrasena</p>";
-        $contenido .= "<p><a href='http://localhost:3000/recuperar?token=" . $this->token."'>Restablecer Constrasena</a></p>";
+        $contenido .= "<p><a href='" . $_ENV['PROJECT_URL'] . "/recuperar?token=" . $this->token."'>Restablecer Constrasena</a></p>";
         $contenido .= "<p>Si tu no solicitaste esta cambio, puedes ignorar el mensaje</p>";
         $contenido .= "</html>";
         $mail->Body = $contenido;
